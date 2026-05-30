@@ -40,6 +40,9 @@ export type ProjectRow = {
   // Case study fields (added in migration-003)
   content: string | null;
   infographic_urls: string[];
+  // Icon & theming fields (added in migration-004)
+  icon_url: string | null;      // URL ikon proyek (PNG/WebP 128×128)
+  accent_color: string | null;  // HEX warna dominan, cth: "#4F8EF7"
 };
 
 export type LabActivityRow = {

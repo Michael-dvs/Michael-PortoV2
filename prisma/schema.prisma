@@ -25,6 +25,12 @@ model Project {
   repoUrl      String?  @map("repo_url")
   techStack    String[] @map("tech_stack")
   isFeatured   Boolean  @default(false) @map("is_featured")
+  // Case study fields (migration-003)
+  content         String?  @map("content")
+  infographicUrls String[] @map("infographic_urls")
+  // Icon & theming fields (migration-004)
+  iconUrl      String?  @map("icon_url")     // URL ikon proyek (PNG/WebP, 128×128)
+  accentColor  String?  @map("accent_color") // HEX warna dominan, cth: "#4F8EF7"
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 

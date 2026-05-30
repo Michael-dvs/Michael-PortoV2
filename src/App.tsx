@@ -321,7 +321,7 @@ function PortfolioContent() {
             className="font-semibold text-sm tracking-tight hover:opacity-80 active:scale-95 transition-transform duration-100 flex items-center gap-2"
           >
             <span className="w-2.5 h-2.5 rounded-full bg-[#0066cc]" />
-            <span>Michael Aristyo</span>
+            <span>Michael-dvs</span>
           </a>
 
           {/* Desktop Links (Right side) */}
@@ -390,12 +390,12 @@ function PortfolioContent() {
       <div className="pt-12" />
 
       {/* 2. Heroes Section (product-tile-light in side-by-side split screen with Infinite Interactive Scrolling Grid) */}
-      <section className="relative bg-[#212124] py-20 px-6 overflow-hidden md:py-28 select-none">
+      <section className="relative bg-[#212124] pt-20 pb-0 px-6 overflow-hidden md:pt-28 md:pb-0 select-none">
         
         {/* Dynamic Interactive Infinite Scrolling Grid Layer */}
         <InteractiveGrid />
 
-        <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+        <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center md:items-end">
           
           {/* Left Column (Content) - pointer-events-none to let mouse grid-tracking pass through seamlessly */}
           <motion.div 
@@ -411,7 +411,7 @@ function PortfolioContent() {
                 }
               }
             }}
-            className="md:col-span-7 flex flex-col items-start text-left space-y-6 pointer-events-none"
+            className="md:col-span-7 flex flex-col items-start text-left space-y-6 pointer-events-none pb-20 md:pb-28"
           >
             <motion.span 
               variants={{
@@ -473,9 +473,8 @@ function PortfolioContent() {
           </motion.div>
 
           {/* Right Column (Visual aspect - remains interactive) */}
-          <div className="md:col-span-5 w-full flex flex-col items-center justify-center pointer-events-auto" style={{ perspective: "1200px" }}>
-            <div className="relative w-full max-w-md mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-t from-[#212124] to-transparent z-10 bottom-0 h-16 pointer-events-none" />
+          <div className="md:col-span-5 w-full flex flex-col items-center justify-end pointer-events-auto self-end" style={{ perspective: "1200px" }}>
+            <div className="relative w-full max-w-2xl mx-auto flex flex-col justify-end">
               
               {/* Interactive mouse follow tilt wrapper */}
               <motion.div 
@@ -487,15 +486,18 @@ function PortfolioContent() {
                   rotateY,
                   transformStyle: "preserve-3d"
                 }}
-                whileHover={{ scale: 1.015 }}
+                whileHover={{ scale: 1.03 }}
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                className="apple-portrait-shadow rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900/40 cursor-pointer select-none relative"
+                className="cursor-pointer select-none relative overflow-visible flex items-end justify-center"
               >
                 <img 
-                  src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80" 
-                  alt="Michael Aristyo Portrait" 
-                  className="w-full aspect-[4/3] md:aspect-[3/4] object-cover mix-blend-normal object-top pointer-events-none select-none max-h-[480px]"
-                  style={{ transform: "translateZ(10px)" }}
+                  src="https://fjzwxziydzloptrdhfwa.supabase.co/storage/v1/object/public/images/WhatsApp_Image_2026-05-30_at_21.50.13Croped-removebg-preview__1_-removebg-preview.png" 
+                  alt="Michael Aristyo Rahadiyan Portrait" 
+                  className="w-full h-auto object-contain object-bottom mix-blend-normal pointer-events-none select-none max-h-[520px] md:max-h-[600px]"
+                  style={{ 
+                    transform: "translateZ(10px)",
+                    filter: "drop-shadow(0px 5px 30px rgba(0, 0, 0, 0.22))"
+                  }}
                   referrerPolicy="no-referrer"
                 />
                 
@@ -507,12 +509,6 @@ function PortfolioContent() {
                   Jakarta, ID
                 </div>
               </motion.div>
-              
-              <p className="mt-4 text-xs font-mono text-zinc-500 uppercase tracking-widest flex items-center justify-center gap-1.5">
-                <span>Portrait Representation</span>
-                <span>•</span>
-                <span>Michael Aristyo</span>
-              </p>
             </div>
           </div>
 
@@ -687,7 +683,7 @@ function PortfolioContent() {
                       if (url) window.open(url, "_blank");
                     }}
                     author={{
-                      name: "Michael Aristyo",
+                      name: "Michael-dvs",
                       avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=50&q=80",
                     }}
                   />

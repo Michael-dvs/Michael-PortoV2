@@ -59,6 +59,49 @@ function renderContent(content: string | null) {
     ));
 }
 
+// ─── Accent colour utilities ───────────────────────────────
+
+/**
+ * Converts a hex colour string ("#RRGGBB" or "#RGB") to an RGB object.
+ * Returns null if the string is malformed.
+ */
+function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+  const clean = hex.replace(/^#/, "");
+  if (clean.length === 3) {
+    const r = parseInt(clean[0] + clean[0], 16);
+    const g = parseInt(clean[1] + clean[1], 16);
+    const b = parseInt(clean[2] + clean[2], 16);
+    return { r, g, b };
+  }
+  if (clean.length === 6) {
+    const r = parseInt(clean.slice(0, 2), 16);
+    const g = parseInt(clean.slice(2, 4), 16);
+    const b = parseInt(clean.slice(4, 6), 16);
+    return { r, g, b };
+  }
+  return null;
+}
+
+/**
+ * Build an inline style object containing CSS custom properties
+ * derived from the project's accent_color.
+ *
+ * Properties injected:
+ *   --accent        : full hex colour
+ *   --accent-r/g/b  : individual RGB channels (for rgba() usage)
+ */
+function buildAccentVars(accentColor: string | null): React.CSSProperties {
+  const fallback = "#006fee";
+  const hex = accentColor ?? fallback;
+  const rgb = hexToRgb(hex) ?? hexToRgb(fallback)!;
+  return {
+    "--accent": hex,
+    "--accent-r": rgb.r,
+    "--accent-g": rgb.g,
+    "--accent-b": rgb.b,
+  } as React.CSSProperties;
+}
+
 // ─── Loading State ─────────────────────────────────────────
 function LoadingScreen() {
   return (
@@ -105,6 +148,53 @@ function NotFoundScreen({ onBack }: { onBack: () => void }) {
   );
 }
 
+// ─── Project Icon ──────────────────────────────────────────
+function ProjectIcon({ iconUrl, title, accentColor }: {
+  iconUrl: string | null;
+  title: string;
+  accentColor: string | null;
+}) {
+  const [imgError, setImgError] = useState(false);
+
+  if (!iconUrl || imgError) return null;
+
+  const hex = accentColor ?? "#006fee";
+  const rgb = hexToRgb(hex);
+  const glowColor = rgb
+    ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.35)`
+    : "rgba(0, 111, 238, 0.35)";
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8, y: 8 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: [0.215, 0.61, 0.355, 1] }}
+      className="flex-shrink-0"
+    >
+      <img
+        src={iconUrl}
+        alt={`${title} icon`}
+        width={56}
+        height={56}
+        loading="eager"
+        decoding="async"
+        referrerPolicy="no-referrer"
+        onError={() => setImgError(true)}
+        style={{
+          width: 56,
+          height: 56,
+          borderRadius: 14,
+          objectFit: "contain",
+          background: "rgba(255,255,255,0.04)",
+          padding: 4,
+          boxShadow: `0 0 0 1px rgba(255,255,255,0.08), 0 8px 24px ${glowColor}`,
+          backdropFilter: "blur(4px)",
+        }}
+      />
+    </motion.div>
+  );
+}
+
 // ─── Infographics Gallery ──────────────────────────────────
 function InfographicsGallery({ urls }: { urls: string[] }) {
   if (!urls || urls.length === 0) return null;
@@ -119,11 +209,15 @@ function InfographicsGallery({ urls }: { urls: string[] }) {
           custom={0}
           className="space-y-2"
         >
-          <span className="text-xs font-mono text-[#006fee] uppercase tracking-widest font-semibold">
+          {/* Uses CSS variable so it matches the accent colour */}
+          <span
+            className="text-xs font-mono uppercase tracking-widest font-semibold"
+            style={{ color: "var(--accent, #006fee)" }}
+          >
             Visual Documentation
           </span>
           <h2 className="text-2xl sm:text-3xl font-semibold text-white tracking-tight">
-            Screenshots & Architecture
+            Screenshots &amp; Architecture
           </h2>
           <p className="text-sm text-zinc-400 max-w-lg">
             Visual breakdown of the system architecture, UI screens, and data pipeline diagrams.
@@ -207,6 +301,11 @@ export default function ProjectDetailPage() {
   const readTime = estimateReadTime(project.content);
   const publishDate = formatDate(project.created_at);
 
+  // ── Derive accent values ──
+  const accentHex = project.accent_color ?? "#006fee";
+  const accentRgb = hexToRgb(accentHex) ?? { r: 0, g: 111, b: 238 };
+  const accentVars = buildAccentVars(project.accent_color);
+
   return (
     <AnimatePresence>
       <motion.div
@@ -216,7 +315,10 @@ export default function ProjectDetailPage() {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
         className="min-h-screen bg-[#1c1c1e] text-white"
-        style={{ fontFamily: "Inter, 'SF Pro Text', system-ui, sans-serif" }}
+        style={{
+          fontFamily: "Inter, 'SF Pro Text', system-ui, sans-serif",
+          ...accentVars,
+        }}
       >
 
         {/* ── Sticky Nav ── */}
@@ -236,7 +338,9 @@ export default function ProjectDetailPage() {
               <ChevronRight className="w-3 h-3 flex-shrink-0" />
               <span className="truncate">Projects</span>
               <ChevronRight className="w-3 h-3 flex-shrink-0" />
-              <span className="text-zinc-300 truncate">{project.title}</span>
+              <span className="truncate" style={{ color: "var(--accent, #006fee)" }}>
+                {project.title}
+              </span>
             </div>
 
             {/* Quick CTA links */}
@@ -246,7 +350,10 @@ export default function ProjectDetailPage() {
                   href={project.live_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-[#006fee] text-white rounded-full text-xs font-medium hover:bg-[#0080ff] transition-all active:scale-95"
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-white rounded-full text-xs font-medium transition-all active:scale-95"
+                  style={{
+                    background: `var(--accent, #006fee)`,
+                  }}
                 >
                   <ExternalLink className="w-3 h-3" />
                   Live Demo
@@ -257,7 +364,22 @@ export default function ProjectDetailPage() {
                   href={project.repo_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-1.5 border border-zinc-700 text-zinc-300 rounded-full text-xs font-medium hover:bg-zinc-800 hover:text-white transition-all active:scale-95"
+                  className="github-btn flex items-center gap-1.5 px-3 py-1.5 border border-zinc-700 text-zinc-300 rounded-full text-xs font-medium hover:text-white transition-all active:scale-95"
+                  style={
+                    {
+                      "--github-hover-border": `${accentHex}88`,
+                    } as React.CSSProperties
+                  }
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLAnchorElement;
+                    el.style.borderColor = `${accentHex}80`;
+                    el.style.backgroundColor = `rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.06)`;
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLAnchorElement;
+                    el.style.borderColor = "";
+                    el.style.backgroundColor = "";
+                  }}
                 >
                   <Github className="w-3 h-3" />
                   GitHub
@@ -269,10 +391,12 @@ export default function ProjectDetailPage() {
 
         {/* ── Hero Section ── */}
         <section className="relative overflow-hidden bg-gradient-to-b from-[#0d1117] via-[#1a1f2e] to-[#1c1c1e] px-6 pt-20 pb-24">
-          {/* Ambient glow */}
+          {/* Ambient glow — uses accent colour */}
           <div
             className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full opacity-[0.07] blur-3xl pointer-events-none"
-            style={{ background: "radial-gradient(ellipse, #006fee 0%, transparent 70%)" }}
+            style={{
+              background: `radial-gradient(ellipse, ${accentHex} 0%, transparent 70%)`,
+            }}
           />
 
           <div className="max-w-4xl mx-auto relative space-y-8">
@@ -284,7 +408,15 @@ export default function ProjectDetailPage() {
               custom={0}
               className="flex flex-wrap items-center gap-3"
             >
-              <span className="inline-block px-3 py-1 text-[10px] rounded-full bg-[#006fee]/15 text-[#4da3ff] font-mono tracking-widest border border-[#006fee]/30">
+              {/* ── FEATURED / CASE STUDY badge — accent themed ── */}
+              <span
+                className="inline-flex items-center px-3 py-1 text-[10px] rounded-full font-mono tracking-widest border"
+                style={{
+                  background: `rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.12)`,
+                  color: accentHex,
+                  borderColor: `rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.30)`,
+                }}
+              >
                 {project.is_featured ? "FEATURED PROJECT" : "CASE STUDY"}
               </span>
               <div className="flex items-center gap-1.5 text-zinc-500 text-xs font-mono">
@@ -297,16 +429,25 @@ export default function ProjectDetailPage() {
               </div>
             </motion.div>
 
-            {/* Title */}
-            <motion.h1
+            {/* ── Title row with project icon ── */}
+            <motion.div
               initial="hidden"
               animate="visible"
               variants={fadeUp}
               custom={1}
-              className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white leading-[1.1]"
+              className="flex items-center gap-5"
             >
-              {project.title}
-            </motion.h1>
+              {/* Project icon with accent glow */}
+              <ProjectIcon
+                iconUrl={project.icon_url}
+                title={project.title}
+                accentColor={project.accent_color}
+              />
+
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white leading-[1.1]">
+                {project.title}
+              </h1>
+            </motion.div>
 
             {/* Description */}
             <motion.p
@@ -335,7 +476,17 @@ export default function ProjectDetailPage() {
                 {project.tech_stack.map((tech) => (
                   <span
                     key={tech}
-                    className="px-3 py-1 rounded-full bg-zinc-800/80 border border-zinc-700 text-xs font-mono text-zinc-300 hover:border-[#006fee]/50 hover:text-white transition-colors"
+                    className="px-3 py-1 rounded-full bg-zinc-800/80 border border-zinc-700 text-xs font-mono text-zinc-300 transition-colors"
+                    onMouseEnter={(e) => {
+                      const el = e.currentTarget as HTMLSpanElement;
+                      el.style.borderColor = `rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.5)`;
+                      el.style.color = "white";
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget as HTMLSpanElement;
+                      el.style.borderColor = "";
+                      el.style.color = "";
+                    }}
                   >
                     {tech}
                   </span>
@@ -356,7 +507,19 @@ export default function ProjectDetailPage() {
                   href={project.live_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-2 px-7 py-3 bg-[#006fee] text-white rounded-full text-sm font-medium hover:bg-[#0080ff] hover:shadow-[0_0_24px_rgba(0,111,238,0.45)] transition-all active:scale-95 shadow-md"
+                  className="flex items-center gap-2 px-7 py-3 text-white rounded-full text-sm font-medium transition-all active:scale-95 shadow-md"
+                  style={{
+                    background: accentHex,
+                    boxShadow: `0 4px 20px rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.35)`,
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+                      `0 0 24px rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.55)`;
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+                      `0 4px 20px rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.35)`;
+                  }}
                 >
                   <ExternalLink className="w-4 h-4" />
                   Official Website / Live Demo
@@ -367,7 +530,19 @@ export default function ProjectDetailPage() {
                   href={project.repo_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-2 px-7 py-3 border border-zinc-600 text-zinc-200 rounded-full text-sm font-medium hover:bg-zinc-800 hover:border-zinc-500 hover:text-white transition-all active:scale-95"
+                  className="flex items-center gap-2 px-7 py-3 border border-zinc-600 text-zinc-200 rounded-full text-sm font-medium transition-all active:scale-95"
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLAnchorElement;
+                    el.style.borderColor = `rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.65)`;
+                    el.style.backgroundColor = `rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.07)`;
+                    el.style.color = "white";
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLAnchorElement;
+                    el.style.borderColor = "";
+                    el.style.backgroundColor = "";
+                    el.style.color = "";
+                  }}
                 >
                   <Github className="w-4 h-4" />
                   GitHub Repository
@@ -412,7 +587,10 @@ export default function ProjectDetailPage() {
                 custom={0}
                 className="space-y-2"
               >
-                <span className="text-xs font-mono text-[#006fee] uppercase tracking-widest font-semibold">
+                <span
+                  className="text-xs font-mono uppercase tracking-widest font-semibold"
+                  style={{ color: "var(--accent, #006fee)" }}
+                >
                   Case Study
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-semibold text-white tracking-tight">
@@ -420,8 +598,13 @@ export default function ProjectDetailPage() {
                 </h2>
               </motion.div>
 
-              {/* Divider */}
-              <div className="h-px bg-gradient-to-r from-[#006fee]/40 via-zinc-700 to-transparent" />
+              {/* Divider — accent gradient */}
+              <div
+                className="h-px"
+                style={{
+                  background: `linear-gradient(to right, rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.45), rgb(63 63 70), transparent)`,
+                }}
+              />
 
               {/* Prose content */}
               <motion.div
@@ -477,7 +660,19 @@ export default function ProjectDetailPage() {
                   href={project.live_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-2 px-8 py-3.5 bg-[#006fee] text-white rounded-full text-sm font-medium hover:bg-[#0080ff] hover:shadow-[0_0_28px_rgba(0,111,238,0.5)] transition-all active:scale-95 shadow-md"
+                  className="flex items-center gap-2 px-8 py-3.5 text-white rounded-full text-sm font-medium transition-all active:scale-95 shadow-md"
+                  style={{
+                    background: accentHex,
+                    boxShadow: `0 4px 24px rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.35)`,
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+                      `0 0 28px rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.55)`;
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+                      `0 4px 24px rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.35)`;
+                  }}
                 >
                   <ExternalLink className="w-4 h-4" />
                   Official Website
@@ -488,7 +683,19 @@ export default function ProjectDetailPage() {
                   href={project.repo_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center gap-2 px-8 py-3.5 border border-zinc-600 text-zinc-200 rounded-full text-sm font-medium hover:bg-zinc-800 hover:text-white hover:border-zinc-500 transition-all active:scale-95"
+                  className="flex items-center gap-2 px-8 py-3.5 border border-zinc-600 text-zinc-200 rounded-full text-sm font-medium transition-all active:scale-95"
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLAnchorElement;
+                    el.style.borderColor = `rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.65)`;
+                    el.style.backgroundColor = `rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.07)`;
+                    el.style.color = "white";
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLAnchorElement;
+                    el.style.borderColor = "";
+                    el.style.backgroundColor = "";
+                    el.style.color = "";
+                  }}
                 >
                   <Github className="w-4 h-4" />
                   GitHub Repository
