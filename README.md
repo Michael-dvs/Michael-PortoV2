@@ -4,7 +4,7 @@ Website portofolio full-stack yang modern, minimalis, dan dinamis. Dibangun meng
 
 ---
 
-## 🚀 Fitur Utama
+## Fitur Utama
 - **Project Showcase:** Galeri portofolio interaktif dengan filter proyek unggulan (*featured*).
 - **Lab Life Gallery:** Dokumentasi aktivitas asisten laboratorium dalam format mosaik/grid visual yang rapi.
 - **Dynamic Case Study:** Halaman detail proyek mendalam yang ditarik secara real-time dari database.
@@ -12,7 +12,7 @@ Website portofolio full-stack yang modern, minimalis, dan dinamis. Dibangun meng
 
 ---
 
-## 🛠️ Stack Teknologi
+## Stack Teknologi
 
 | Layer | Teknologi |
 | --- | --- |
@@ -23,7 +23,7 @@ Website portofolio full-stack yang modern, minimalis, dan dinamis. Dibangun meng
 
 ---
 
-## 📋 Prasyarat (*Prerequisites*)
+## Prasyarat (*Prerequisites*)
 
 Sebelum menjalankan project secara lokal, pastikan Anda telah menginstal/menyiapkan:
 1. **Node.js** (versi 18.x atau yang lebih baru).
@@ -32,7 +32,7 @@ Sebelum menjalankan project secara lokal, pastikan Anda telah menginstal/menyiap
 
 ---
 
-## ⚙️ Langkah Instalasi & Konfigurasi
+## Langkah Instalasi & Konfigurasi
 
 ### 1. Kloning Project & Pasang Dependensi
 Buka terminal Anda dan jalankan perintah berikut:
@@ -56,7 +56,7 @@ Buka file `.env` yang baru dibuat dan isi kredensial berikut:
 
 ---
 
-## 🗄️ Setup & Sinkronisasi Database
+## Setup & Sinkronisasi Database
 
 Project ini menggunakan Prisma ORM untuk mengelola komunikasi data dengan PostgreSQL di Supabase. Ikuti langkah sinkronisasi berikut:
 
@@ -78,7 +78,7 @@ npx tsx prisma/seed.ts
 
 ---
 
-## 💻 Menjalankan Aplikasi di Lokal
+## Menjalankan Aplikasi di Lokal
 
 Gunakan perintah-perintah script `npm` berikut untuk mengoperasikan aplikasi:
 
@@ -107,7 +107,7 @@ npm run lint
 
 ---
 
-## 📂 Struktur Direktori Utama
+## Struktur Direktori Utama
 
 ```text
 michael-aristyo-portfolio/
