@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "SF Pro Text", system-ui, -apple-system, sans-serif;
+  --font-display: "SF Pro Display", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "Fira Code", monospace;
+  
+  --color-primary-blue: #0066cc;
+  --color-action-hover: #0071e3;
+  --color-parchment: #f5f5f7;
+  --color-ink: #1d1d1f;
+  --color-dark-tile: #272729;
+}
+
+/* Base custom interactive scrollbars and typography scale defaults */
+::selection {
+  background-color: rgba(0, 102, 204, 0.2);
+  color: #0066cc;
+}
+
+html {
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom CSS variables for Apple minimalist product pages drop shadow */
+.apple-portrait-shadow {
+  filter: drop-shadow(rgba(0, 0, 0, 0.22) 3px 5px 30px);
+}
+
+.apple-mockup-shadow {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 10px 40px;
+}
+
+/* Custom style for high contrast selections */
+.dark ::selection {
+  background-color: rgba(0, 102, 204, 0.4);
+  color: #ffffff;
+}

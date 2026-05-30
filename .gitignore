@@ -1,0 +1,98 @@
+# ==========================================
+# 1. Frontend / UI (Node.js & JS Ecosystem)
+# ==========================================
+node_modules/
+/dist/
+/build/
+/out/
+/.next/
+/.nuxt/
+/.cache/
+/pnpm-debug.log*
+/yarn-error.log*
+/npm-debug.log*
+*.log
+coverage/
+database.md
+design.md
+
+# ==========================================
+# 2. Backend (Golang)
+# ==========================================
+# Binary / Executables
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+# Go build binaries
+/bin/
+/out/
+# Go vendor & tools
+vendor/
+# Go test & coverage profiles
+*.out
+*.prof
+
+# ==========================================
+# 3. Environment Variables & Secrets
+# ==========================================
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env*.local
+*.pem
+*.key
+*.pub
+# Make sure to keep .env.example tracked
+!.env.example
+
+# ==========================================
+# 4. Sistem Operasi (OS)
+# ==========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ==========================================
+# 5. Code Editor / IDE
+# ==========================================
+# VS Code (Abaikan folder .vscode kecuali settings.json jika ada)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# JetBrains / IntelliJ
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# ==========================================
+# 6. Lain-lain (Database Dumps, Uploads, Docker)
+# ==========================================
+# Local Database Dumps
+*.sql
+# PENGECUALIAN: Jangan ignore file migrasi/setup portofolio yang ada di repositori
+!supabase-migration-*.sql
+!supabase-setup.sql
+
+# Local Uploads / Temporary Files
+/uploads/
+/temp/
+/tmp/
+
+# Docker Local Config / Cache
+.docker/
+docker-compose.override.yml

@@ -1,0 +1,6 @@
+{
+  "name": "Michael Aristyo Portfolio",
+  "description": "A highly polished, photography-first developer portfolio for Michael Aristyo, designed on Apple's minimalist aesthetic.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
