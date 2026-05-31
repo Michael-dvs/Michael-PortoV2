@@ -293,6 +293,16 @@ export default function ProjectDetailPage() {
       .finally(() => setLoading(false));
   }, [slug]);
 
+  // Update document title when project is loaded
+  useEffect(() => {
+    if (project) {
+      document.title = `${project.title} - Michael-dvs`;
+    }
+    return () => {
+      document.title = "Home - Michael-dvs";
+    };
+  }, [project]);
+
   const handleBack = () => navigate("/");
 
   if (loading) return <LoadingScreen />;

@@ -8,72 +8,74 @@ import {
 import { ThemeProvider, Footer, ThemeToggle } from "@/components/ui/footer";
 import InteractiveBentoGallery from "@/components/ui/interactive-bento-gallery";
 import { GlassBlogCard } from "@/components/ui/glass-blog-card-shadcnui";
-import IntegrationHero from "@/components/ui/integration-hero";
 import { Button } from "@/components/ui/button";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { InteractiveGrid } from "@/components/ui/interactive-grid";
 import { getFeaturedProjects, getOtherProjects, getLabActivities, getLabGalleryItems, ProjectRow, LabActivityRow, LabGalleryItemRow } from "@/lib/supabase";
 import type { MediaItemType } from "@/components/ui/interactive-bento-gallery";
+import { SiPython, SiGo, SiTailwindcss, SiSwift, SiDocker, SiNextcloud } from "react-icons/si";
+import { FaJava, FaDatabase } from "react-icons/fa";
+import { TbBrandCSharp } from "react-icons/tb";
 
 // Technical skills mapping for the configurator option chip layout
 const SKILLS_LIST = [
   { 
     name: "Python", 
-    icon: "🐍", 
+    icon: (active: boolean, className?: string) => <SiPython className={className ?? "w-4 h-4"} color={active ? "#3776AB" : "currentColor"} />, 
     category: "Core & Data Science",
     paradigm: "Architecting high-performance numeric workflows, vectorized operations using micro-indexing (Pandas/NumPy), and spatial data representations backed by GIS raster-vector frameworks (GDAL, Shapely, GeoPandas)." 
   },
   { 
     name: "Golang", 
-    icon: "🐹", 
+    icon: (active: boolean, className?: string) => <SiGo className={className ?? "w-4 h-4"} color={active ? "#00ADD8" : "currentColor"} />, 
     category: "Backend Systems",
     paradigm: "Engineering concurrent backends utilizing channel multiplexing, Goroutine pool sizing, customized context propagation, and highly optimized network packet routing." 
   },
   { 
     name: "C#", 
-    icon: "⚙️", 
+    icon: (active: boolean, className?: string) => <TbBrandCSharp className={className ?? "w-4 h-4"} color={active ? "#239120" : "currentColor"} />, 
     category: "Enterprise App",
     paradigm: "Modeling distributed business components under .NET Core, implementing asynchronous thread scheduling queues, and developing hardware-layer integration routines." 
   },
   { 
     name: "Java", 
-    icon: "☕", 
+    icon: (active: boolean, className?: string) => <FaJava className={className ?? "w-4 h-4"} color={active ? "#ED8B00" : "currentColor"} />, 
     category: "Core Systems",
     paradigm: "Structuring deep object-oriented algorithms, JVM garbage-collector and memory footprint analysis, and highly responsive multi-threaded server orchestration." 
   },
   { 
     name: "SQL", 
-    icon: "💾", 
+    icon: (active: boolean, className?: string) => <FaDatabase className={className ?? "w-4 h-4"} color={active ? "#336791" : "currentColor"} />, 
     category: "Databases",
     paradigm: "Designing declarative schemas, formulating spatial indexing constructs (PostGIS R-Tree), indexing deep hierarchy sets (recursive CTEs), and query plan compiling." 
   },
   { 
     name: "CSS / Tailwind", 
-    icon: "🎨", 
+    icon: (active: boolean, className?: string) => <SiTailwindcss className={className ?? "w-4 h-4"} color={active ? "#06B6D4" : "currentColor"} />, 
     category: "Front-End",
     paradigm: "Building scalable visual designs, implementing device-agnostic fluid breakpoints, utilizing hardware-accelerated animations, and maintaining design tokens." 
   },
   { 
     name: "SwiftUI", 
-    icon: "📱", 
+    icon: (active: boolean, className?: string) => <SiSwift className={className ?? "w-4 h-4"} color={active ? "#F05138" : "currentColor"} />, 
     category: "Mobile iOS",
     paradigm: "Designing native declarative layouts with reactive data-binding state, high-fidelity responsive layouts, and performance-tuned background thread integrations." 
   },
   { 
     name: "Docker", 
-    icon: "🐳", 
+    icon: (active: boolean, className?: string) => <SiDocker className={className ?? "w-4 h-4"} color={active ? "#2496ED" : "currentColor"} />, 
     category: "Infrastructure",
     paradigm: "Assembling secure, containerized deployment systems, minimizing runtime dependencies with multi-stage compilations, and setting local sandboxed integration layers." 
   },
   { 
     name: "Nextcloud", 
-    icon: "☁️", 
+    icon: (active: boolean, className?: string) => <SiNextcloud className={className ?? "w-4 h-4"} color={active ? "#0082C9" : "currentColor"} />, 
     category: "Deployment",
     paradigm: "Architecting decentralized file systems, metadata syncing interfaces, distributed session caching databases, and container-backed remote storage nodes." 
   },
   { 
     name: "LLMs (DeepSeek/Ollama)", 
-    icon: "🧠", 
+    icon: (active: boolean, className?: string) => <Brain className={className ?? "w-4 h-4"} color={active ? "#10b981" : "currentColor"} />, 
     category: "AI Orchestration",
     paradigm: "Assembling local generative pipelines, orchestrating parameters on local quantized hardware (Ollama), parsing contextual prompt streams, and designing offline agent frameworks." 
   }
@@ -533,7 +535,7 @@ function PortfolioContent() {
                 {/* Project Specs */}
                 <div className={`lg:col-span-5 space-y-6 text-left ${index % 2 !== 0 ? "lg:order-2" : "lg:order-1"}`}>
                   <span className="inline-block px-3 py-1 text-xs rounded-full bg-zinc-800 text-zinc-300 font-mono tracking-widest border border-zinc-700 transition-all duration-300 group-hover:border-[#006fee] group-hover:bg-zinc-850 group-hover:text-white shadow-sm">
-                    {project.is_featured ? "FEATURED AI PROJECT" : "PORTFOLIO PROJECT"}
+                    {project.is_featured ? "FEATURED PROJECT" : "PORTFOLIO PROJECT"}
                   </span>
                   <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white leading-tight font-display">
                     {project.title}
@@ -558,7 +560,7 @@ function PortfolioContent() {
                       className="px-6 py-2.5 bg-[#006fee] text-white rounded-full text-xs font-medium hover:bg-[#007ef3] hover:shadow-[0_0_15px_rgba(0,111,238,0.4)] transition-all active:scale-95 cursor-pointer shadow-sm flex items-center gap-2"
                     >
                       <ArrowRight className="w-4 h-4" />
-                      Case Study
+                      Read Here
                     </button>
                     {project.live_url && (
                       <a 
@@ -568,7 +570,7 @@ function PortfolioContent() {
                         className="px-6 py-2.5 border border-zinc-650 text-zinc-100 rounded-full text-xs font-medium hover:bg-zinc-800 transition-all active:scale-95 flex items-center gap-2 bg-transparent"
                       >
                         <ExternalLink className="w-4 h-4" />
-                        Live Demo
+                        Official Website
                       </a>
                     )}
                     {project.repo_url && (
@@ -613,7 +615,7 @@ function PortfolioContent() {
               <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <div className="lg:col-span-5 space-y-6 text-left">
                   <span className="inline-block px-3 py-1 text-xs rounded-full bg-zinc-800 text-zinc-300 font-mono tracking-widest border border-zinc-700 transition-all duration-300 group-hover:border-[#006fee] shadow-sm">
-                    FEATURED AI PROJECT
+                    FEATURED PROJECT
                   </span>
                   <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white leading-tight font-display">
                     TrashMap AI
@@ -735,83 +737,168 @@ function PortfolioContent() {
 
       <SectionDivider />
 
-      {/* 5. Tech Stack & Skills (configurator-option-chip Grid wrapped in relative layout) */}
-      <section id="skills" className="bg-[#212124] text-white py-24 px-6 relative border-t border-zinc-800 transition-colors">
-        <div className="max-w-4xl mx-auto space-y-10 text-center relative">
+      {/* 5. Tech Stack & Skills (Merged Unified Tech Stack Section with Infinite Marquees and Interactive Desk) */}
+      <section id="skills" className="bg-[#212124] text-white py-24 px-6 relative border-t border-zinc-800 transition-colors overflow-hidden">
+        {/* Subtle background grid pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.015)_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto space-y-12 text-center relative">
           
+          {/* Header & Typography */}
           <div className="space-y-4">
-            <span className="text-xs font-mono text-sky-400 font-semibold uppercase tracking-widest block font-display">
-              Configurator Option Chip Layout
+            <span className="inline-block px-3 py-1 text-xs font-mono text-sky-400 font-semibold uppercase tracking-widest border border-zinc-800 bg-[#272729] rounded-full">
+              ⚡ Integrations &amp; Core Tools
             </span>
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-white leading-tight font-display">
-              Tools &amp; Technologies
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white leading-tight font-display">
+              A Robust System of Tech Stack
             </h2>
-            <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto font-light font-sans">
-              Meticulously structured stack aligned to modern computer engineering and geographic systems optimization. Hover over or click options below.
+            <p className="mt-4 text-sm sm:text-base md:text-lg text-zinc-400 max-w-2xl mx-auto font-light font-sans leading-relaxed">
+              Powering scalable software engineering and intelligent data pipelines. Hover over any tool to inspect its native paradigm.
             </p>
           </div>
 
-          {/* Flexible wrap of configurator option chips with thin borders in a relative container */}
-          <div className="relative flex flex-wrap items-center justify-center gap-3 max-w-2xl mx-auto pt-6">
-            {SKILLS_LIST.map((chip) => {
-              const matchesActive = activeTech === chip.name || hoveredTech === chip.name;
-              return (
-                <button
-                  key={chip.name}
-                  onClick={() => setActiveTech(activeTech === chip.name ? null : chip.name)}
-                  onMouseEnter={() => setHoveredTech(chip.name)}
-                  onMouseLeave={() => setHoveredTech(null)}
-                  className={`
-                    px-5 py-2.5 rounded-full border text-xs sm:text-sm font-medium tracking-tight cursor-pointer 
-                    transition-all duration-200 active:scale-95 shadow-md flex items-center gap-2 outline-none
-                    ${matchesActive 
-                      ? "bg-[#f5f5f7] text-[#1d1d1f] border-transparent scale-[1.03] shadow-[0_0_15px_rgba(255,255,255,0.15)]" 
-                      : "bg-[#272729] border-zinc-850 text-zinc-300 hover:bg-zinc-800 hover:text-white"}
-                  `}
-                >
-                  <span>{chip.icon}</span>
-                  <span>{chip.name}</span>
-                </button>
-              );
-            })}
+          {/* Infinite Marquee of Apple-style Squircle Tech Icons */}
+          <div className="mt-12 overflow-hidden relative pb-4 max-w-5xl mx-auto">
+            
+            {/* Row 1: Leftward moving marquee (Core & Systems) */}
+            <div 
+              className="flex gap-6 whitespace-nowrap animate-scroll-left py-2"
+              style={{ animationPlayState: hoveredTech ? "paused" : "running" }}
+            >
+              {Array.from({ length: 4 }).flatMap(() => [
+                SKILLS_LIST[0], // Python
+                SKILLS_LIST[1], // Golang
+                SKILLS_LIST[2], // C#
+                SKILLS_LIST[3], // Java
+                SKILLS_LIST[4], // SQL
+              ]).map((tech, i) => {
+                const isHoveredThis = hoveredTech === tech.name;
+                const isDimmed = hoveredTech !== null && hoveredTech !== tech.name;
+                const isActive = activeTech === tech.name;
+                return (
+                  <div
+                    key={`row1-${tech.name}-${i}`}
+                    onMouseEnter={() => setHoveredTech(tech.name)}
+                    onMouseLeave={() => setHoveredTech(null)}
+                    onClick={() => setActiveTech(activeTech === tech.name ? null : tech.name)}
+                    className={`
+                      h-16 w-16 sm:h-20 sm:w-20 flex-shrink-0 rounded-2xl 
+                      bg-[#272729] border border-zinc-800/80 flex items-center justify-center 
+                      cursor-pointer transition-all duration-300 relative group/squircle shadow-md
+                      ${isHoveredThis ? "scale-110 z-10 border-sky-400/50 shadow-[0_0_25px_rgba(56,189,248,0.25)] bg-zinc-800" : ""}
+                      ${isDimmed ? "opacity-35 scale-95" : "opacity-100"}
+                    `}
+                  >
+                    <span className="flex items-center justify-center">
+                      {typeof tech.icon === 'function' 
+                        ? tech.icon(isHoveredThis || isActive, "w-8 h-8 sm:w-10 sm:h-10 transition-all duration-300 group-hover/squircle:scale-105") 
+                        : tech.icon}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Row 2: Rightward moving marquee (Frontend & Deployment) */}
+            <div 
+              className="flex gap-6 whitespace-nowrap mt-4 animate-scroll-right py-2"
+              style={{ animationPlayState: hoveredTech ? "paused" : "running" }}
+            >
+              {Array.from({ length: 4 }).flatMap(() => [
+                SKILLS_LIST[5], // CSS/Tailwind
+                SKILLS_LIST[6], // SwiftUI
+                SKILLS_LIST[7], // Docker
+                SKILLS_LIST[8], // Nextcloud
+                SKILLS_LIST[9], // LLMs
+              ]).map((tech, i) => {
+                const isHoveredThis = hoveredTech === tech.name;
+                const isDimmed = hoveredTech !== null && hoveredTech !== tech.name;
+                const isActive = activeTech === tech.name;
+                return (
+                  <div
+                    key={`row2-${tech.name}-${i}`}
+                    onMouseEnter={() => setHoveredTech(tech.name)}
+                    onMouseLeave={() => setHoveredTech(null)}
+                    onClick={() => setActiveTech(activeTech === tech.name ? null : tech.name)}
+                    className={`
+                      h-16 w-16 sm:h-20 sm:w-20 flex-shrink-0 rounded-2xl 
+                      bg-[#272729] border border-zinc-800/80 flex items-center justify-center 
+                      cursor-pointer transition-all duration-300 relative group/squircle shadow-md
+                      ${isHoveredThis ? "scale-110 z-10 border-sky-400/50 shadow-[0_0_25px_rgba(56,189,248,0.25)] bg-zinc-800" : ""}
+                      ${isDimmed ? "opacity-35 scale-95" : "opacity-100"}
+                    `}
+                  >
+                    <span className="flex items-center justify-center">
+                      {typeof tech.icon === 'function' 
+                        ? tech.icon(isHoveredThis || isActive, "w-8 h-8 sm:w-10 sm:h-10 transition-all duration-300 group-hover/squircle:scale-105") 
+                        : tech.icon}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Premium visual edge-fade gradient overlays */}
+            <div className="absolute left-0 top-0 h-full w-20 sm:w-32 bg-gradient-to-r from-[#212124] to-transparent pointer-events-none z-20" />
+            <div className="absolute right-0 top-0 h-full w-20 sm:w-32 bg-gradient-to-l from-[#212124] to-transparent pointer-events-none z-20" />
           </div>
 
-          {/* Coordinated dynamic paradigm presentation panel */}
-          <div className="relative mt-8 min-h-[125px] flex items-center justify-center pt-2">
+          {/* Interactive Info Box (The Desk) */}
+          <div className="relative mt-8 min-h-[140px] flex items-center justify-center pt-2 max-w-xl mx-auto">
             <motion.div
               key={hoveredTech || activeTech || "empty"}
-              initial={{ opacity: 0, y: 4 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
-              className="w-full max-w-xl p-6 rounded-2xl bg-[#272729]/80 border border-zinc-800 backdrop-blur-sm mx-auto shadow-xl"
+              className="w-full p-6 rounded-2xl bg-[#272729]/80 border border-zinc-800/80 backdrop-blur-sm shadow-xl"
             >
-              {(hoveredTech || activeTech) ? (
-                <div className="space-y-2 text-center">
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-sky-400 font-semibold flex items-center justify-center gap-1.5">
-                    <span>{SKILLS_LIST.find(c => c.name === (hoveredTech || activeTech))?.icon}</span>
-                    <span>{(hoveredTech || activeTech)} Paradigm &mdash; {SKILLS_LIST.find(c => c.name === (hoveredTech || activeTech))?.category}</span>
-                  </div>
-                  <p className="text-sm font-light text-zinc-200 leading-relaxed max-w-lg mx-auto">
-                    {SKILLS_LIST.find(c => c.name === (hoveredTech || activeTech))?.paradigm}
+              {(() => {
+                const activeName = hoveredTech || activeTech;
+                if (activeName) {
+                  const activeItem = SKILLS_LIST.find(c => c.name === activeName);
+                  return (
+                    <div className="space-y-2.5 text-center">
+                      <div className="text-[10px] font-mono uppercase tracking-widest text-sky-400 font-semibold flex items-center justify-center gap-1.5">
+                        <span className="flex items-center justify-center">
+                          {activeItem && typeof activeItem.icon === 'function' ? activeItem.icon(true, "w-4 h-4") : null}
+                        </span>
+                        <span>{activeName} Paradigm &mdash; {activeItem?.category}</span>
+                      </div>
+                      <p className="text-sm font-light text-zinc-200 leading-relaxed max-w-lg mx-auto">
+                        {activeItem?.paradigm}
+                      </p>
+                    </div>
+                  );
+                }
+                return (
+                  <p className="text-xs font-mono text-zinc-500 text-center py-4 flex items-center justify-center gap-2">
+                    <span>💡</span> Interactive Desk: Hover or tap any tool above to inspect its associated engineering paradigms natively.
                   </p>
-                </div>
-              ) : (
-                <p className="text-xs font-mono text-zinc-500 text-center py-4">
-                  💡 Interactive Desk: Hover or tap any option chip above to inspect its associated engineering paradigms natively.
-                </p>
-              )}
+                );
+              })()}
             </motion.div>
           </div>
 
         </div>
+
+        {/* Dynamic marquee styling */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          @keyframes scroll-right {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+          }
+          .animate-scroll-left {
+            animation: scroll-left 45s linear infinite;
+          }
+          .animate-scroll-right {
+            animation: scroll-right 45s linear infinite;
+          }
+        `}} />
       </section>
-
-      <SectionDivider />
-
-      {/* Integration Hero Technology Carousel */}
-      <IntegrationHero />
-
-      <SectionDivider />
 
       {/* 6. Lab Assistant & Campus Life (product-tile-dark) */}
       <motion.section 
