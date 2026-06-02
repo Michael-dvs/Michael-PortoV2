@@ -6,16 +6,16 @@ import {
   Terminal, Server, Brain, Code, BookOpen, Layers, Monitor, ChevronLeft, ChevronRight, Menu, X
 } from "lucide-react";
 import { ThemeProvider, Footer, ThemeToggle } from "@/components/ui/footer";
-import InteractiveBentoGallery from "@/components/ui/interactive-bento-gallery";
+import { ZoomParallax } from "@/components/ui/zoom-parallax";
 import { GlassBlogCard } from "@/components/ui/glass-blog-card-shadcnui";
 import { Button } from "@/components/ui/button";
 import { SectionDivider } from "@/components/ui/section-divider";
 import { InteractiveGrid } from "@/components/ui/interactive-grid";
 import { getFeaturedProjects, getOtherProjects, getLabActivities, getLabGalleryItems, ProjectRow, LabActivityRow, LabGalleryItemRow } from "@/lib/supabase";
-import type { MediaItemType } from "@/components/ui/interactive-bento-gallery";
 import { SiPython, SiGo, SiTailwindcss, SiSwift, SiDocker, SiNextcloud } from "react-icons/si";
 import { FaJava, FaDatabase } from "react-icons/fa";
 import { TbBrandCSharp } from "react-icons/tb";
+import Lenis from "lenis";
 
 // Technical skills mapping for the configurator option chip layout
 const SKILLS_LIST = [
@@ -187,6 +187,20 @@ function PortfolioContent() {
       }
     }
     loadData();
+  }, []);
+
+  // Initialize Lenis smooth scrolling for buttery parallax feel
+  useEffect(() => {
+    const lenis = new Lenis();
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    const rafId = requestAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
   }, []);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -852,135 +866,131 @@ function PortfolioContent() {
       </section>
 
       {/* 6. Lab Assistant & Campus Life (product-tile-dark) */}
-      <motion.section 
-        id="lab" 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={revealVariants}
-        className="bg-[#272729] dark:bg-zinc-950 text-white py-24 px-6 md:px-12"
+      <section
+        id="lab"
+        className="bg-[#272729] dark:bg-zinc-950 text-white"
       >
-        <div className="max-w-6xl mx-auto space-y-12 text-center lg:text-left">
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            {/* Written specs & Life details */}
-            <div className="lg:col-span-5 space-y-6">
-              <span className="inline-block px-3 py-1 text-xs rounded-full bg-zinc-855 text-sky-400 font-mono tracking-wider border border-zinc-700">
-                CAMPUS RESPONSIBILITY
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight leading-tight text-white font-display">
-                Life at the Lab
-              </h2>
-              <p className="text-xl text-zinc-300 font-light font-sans">
-                Laboratory Assistant &amp; Technical Tutor at LePKom Universitas Gunadarma, Jakarta.
-              </p>
-              <p className="text-sm text-zinc-400 leading-relaxed font-light">
-                Guiding heavy practical laboratory tracks in assembly compilers, data systems, and algorithmic analysis. Leading peer programming marathons, verifying homework scripts, and managing lab server arrays natively.
-              </p>
+        {/* Top info panel */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={revealVariants}
+          className="py-24 px-6 md:px-12"
+        >
+          <div className="max-w-6xl mx-auto space-y-12 text-center lg:text-left">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
-              <div className="rounded-xl bg-zinc-900 p-4 border border-zinc-850 text-left space-y-3">
-                <p className="text-xs font-mono text-[#0066cc] dark:text-sky-400 uppercase tracking-widest font-semibold">
-                  INSTRUCTOR HIGHLIGHTS
+              {/* Written specs & Life details */}
+              <div className="lg:col-span-5 space-y-6">
+                <span className="inline-block px-3 py-1 text-xs rounded-full bg-zinc-855 text-sky-400 font-mono tracking-wider border border-zinc-700">
+                  CAMPUS RESPONSIBILITY
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight leading-tight text-white font-display">
+                  Life at the Lab
+                </h2>
+                <p className="text-xl text-zinc-300 font-light font-sans">
+                  Laboratory Assistant &amp; Technical Tutor at LePKom Universitas Gunadarma, Jakarta.
                 </p>
-                <ul className="text-xs text-zinc-300 space-y-2 list-disc pl-4 font-light">
-                  <li>Guiding live practical labs since August 2024 (over three separate terms).</li>
-                  <li>Drafted responsive evaluation codes for automatic grading scripts.</li>
-                  <li>Mentored competitor groups in external Java hackathons.</li>
-                </ul>
-              </div>
-            </div>
+                <p className="text-sm text-zinc-400 leading-relaxed font-light">
+                  Guiding heavy practical laboratory tracks in assembly compilers, data systems, and algorithmic analysis. Leading peer programming marathons, verifying homework scripts, and managing lab server arrays natively.
+                </p>
 
-            {/* Visual: Landscape image with circular overlay carousel indicators */}
-            <div className="lg:col-span-7">
-              <div 
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
-                onKeyDown={(e) => {
-                  if (e.key === "ArrowLeft") handlePrevLabImage();
-                  if (e.key === "ArrowRight") handleNextLabImage();
-                }}
-                tabIndex={0}
-                className="rounded-2xl overflow-hidden border border-zinc-800 bg-[#1d1d1f] p-2 aspect-[16/10] relative group focus:outline-none focus:ring-1 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-zinc-900 transition-all cursor-grab active:cursor-grabbing"
-                aria-label="Campus Lab Life Interactive Slideshow. Use arrow keys or swipe gestures to navigate."
-              >
-                
-                {/* Image render */}
-                <img 
-                  src={labCarouselImages[activeLabImage].src} 
-                  alt="Michael lecturing students at Universitas Gunadarma" 
-                  className="w-full h-full object-cover rounded-xl transition-all duration-300 group-hover:scale-[1.01]"
-                  referrerPolicy="no-referrer"
-                  draggable={false}
-                />
-
-                {/* Left floating translucent circular button */}
-                <button 
-                  onClick={handlePrevLabImage}
-                  className="absolute left-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center bg-black/60 hover:bg-[#0066cc] text-white border border-zinc-700/80 hover:border-transparent cursor-pointer transition-all active:scale-90 shadow-md backdrop-blur-sm z-20"
-                  aria-label="Previous Lab Image"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-
-                {/* Right floating translucent circular button */}
-                <button 
-                  onClick={handleNextLabImage}
-                  className="absolute right-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center bg-black/60 hover:bg-[#0066cc] text-white border border-zinc-700/80 hover:border-transparent cursor-pointer transition-all active:scale-90 shadow-md backdrop-blur-sm z-20"
-                  aria-label="Next Lab Image"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-
-                {/* Floating indicator helper badge */}
-                <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-sm px-2.5 py-1.5 rounded-lg border border-zinc-800 text-[9px] font-mono text-zinc-400 select-none pointer-events-none flex items-center gap-1.5 transition-opacity duration-300 group-hover:opacity-100 opacity-60 z-20">
-                  <span>Swipe ⇄ or Keyboard Arrows</span>
+                <div className="rounded-xl bg-zinc-900 p-4 border border-zinc-850 text-left space-y-3">
+                  <p className="text-xs font-mono text-[#0066cc] dark:text-sky-400 uppercase tracking-widest font-semibold">
+                    INSTRUCTOR HIGHLIGHTS
+                  </p>
+                  <ul className="text-xs text-zinc-300 space-y-2 list-disc pl-4 font-light">
+                    <li>Guiding live practical labs since August 2024 (over three separate terms).</li>
+                    <li>Drafted responsive evaluation codes for automatic grading scripts.</li>
+                    <li>Mentored competitor groups in external Java hackathons.</li>
+                  </ul>
                 </div>
-
-                {/* Translucent overlay caption bar */}
-                <div className="absolute bottom-4 left-4 right-4 bg-zinc-900/90 text-zinc-250 backdrop-blur-md px-4 py-2.5 rounded-xl border border-zinc-800 text-xs text-left max-w-sm truncate whitespace-normal leading-relaxed shadow-sm block z-20">
-                  {labCarouselImages[activeLabImage].caption}
-                </div>
-
               </div>
-              <div className="flex justify-center items-center gap-1.5 mt-4">
-                {labCarouselImages.map((_, i) => (
-                  <button 
-                    key={i}
-                    onClick={() => setActiveLabImage(i)}
-                    className={`h-2 rounded-full transition-all duration-150 ${activeLabImage === i ? "w-6 bg-[#0066cc]" : "w-2 bg-zinc-700 hover:bg-zinc-500"}`}
+
+              {/* Visual: Landscape image with circular overlay carousel indicators */}
+              <div className="lg:col-span-7">
+                <div
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
+                  onKeyDown={(e) => {
+                    if (e.key === "ArrowLeft") handlePrevLabImage();
+                    if (e.key === "ArrowRight") handleNextLabImage();
+                  }}
+                  tabIndex={0}
+                  className="rounded-2xl overflow-hidden border border-zinc-800 bg-[#1d1d1f] p-2 aspect-[16/10] relative group focus:outline-none focus:ring-1 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-zinc-900 transition-all"
+                  aria-label="Campus Lab Life Interactive Slideshow. Use arrow keys or swipe gestures to navigate."
+                >
+                  {/* Image render */}
+                  <img
+                    src={labCarouselImages[activeLabImage].src}
+                    alt="Michael lecturing students at Universitas Gunadarma"
+                    className="w-full h-full object-cover rounded-xl transition-all duration-300 group-hover:scale-[1.01]"
+                    referrerPolicy="no-referrer"
+                    draggable={false}
                   />
-                ))}
+
+                  {/* Left floating translucent circular button */}
+                  <button
+                    onClick={handlePrevLabImage}
+                    className="absolute left-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center bg-black/60 hover:bg-[#0066cc] text-white border border-zinc-700/80 hover:border-transparent cursor-pointer transition-all active:scale-90 shadow-md backdrop-blur-sm z-20"
+                    aria-label="Previous Lab Image"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+
+                  {/* Right floating translucent circular button */}
+                  <button
+                    onClick={handleNextLabImage}
+                    className="absolute right-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center bg-black/60 hover:bg-[#0066cc] text-white border border-zinc-700/80 hover:border-transparent cursor-pointer transition-all active:scale-90 shadow-md backdrop-blur-sm z-20"
+                    aria-label="Next Lab Image"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+
+                  {/* Floating indicator helper badge */}
+                  <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-sm px-2.5 py-1.5 rounded-lg border border-zinc-800 text-[9px] font-mono text-zinc-400 select-none pointer-events-none flex items-center gap-1.5 transition-opacity duration-300 group-hover:opacity-100 opacity-60 z-20">
+                    <span>Swipe ⇄ or Keyboard Arrows</span>
+                  </div>
+
+                  {/* Translucent overlay caption bar */}
+                  <div className="absolute bottom-4 left-4 right-4 bg-zinc-900/90 text-zinc-250 backdrop-blur-md px-4 py-2.5 rounded-xl border border-zinc-800 text-xs text-left max-w-sm truncate whitespace-normal leading-relaxed shadow-sm block z-20">
+                    {labCarouselImages[activeLabImage].caption}
+                  </div>
+                </div>
+                <div className="flex justify-center items-center gap-1.5 mt-4">
+                  {labCarouselImages.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveLabImage(i)}
+                      className={`h-2 rounded-full transition-all duration-150 ${activeLabImage === i ? "w-6 bg-[#0066cc]" : "w-2 bg-zinc-700 hover:bg-zinc-500"}`}
+                    />
+                  ))}
+                </div>
               </div>
+
             </div>
-
           </div>
+        </motion.div>
 
-          <div className="pt-12 border-t border-zinc-800/80">
-            <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest block text-center mb-1">
-              📷 COGNITIVE DRAGGABLE BOARD
-            </span>
-            <InteractiveBentoGallery 
-              mediaItems={
-                dbLabGalleryItems.length > 0
-                  ? dbLabGalleryItems.map((item, index) => ({
-                      id: index + 1,
-                      type: item.type,
-                      title: item.title,
-                      desc: item.description,
-                      url: item.url,
-                      span: item.span,
-                    } as MediaItemType))
-                  : LAB_MEDIA_ITEMS
-              }
-              title="Draggable Lab Gallery"
-              description="Explore live visual slices from classroom study, computing research, and server hardware calibrations. Drag and rearrange items."
-            />
-          </div>
-
+        {/* Zoom Parallax Gallery */}
+        <div className="border-t border-zinc-800/80">
+          <ZoomParallax
+            images={
+              dbLabGalleryItems.length > 0
+                ? dbLabGalleryItems.map((item) => ({
+                    src: item.url,
+                    alt: item.title || `Lab image`,
+                  }))
+                : LAB_MEDIA_ITEMS.filter((item) => item.type === "image").map((item) => ({
+                    src: item.url,
+                    alt: item.title || `Lab image`,
+                  }))
+            }
+          />
         </div>
-      </motion.section>
+      </section>
 
       <SectionDivider />
 
