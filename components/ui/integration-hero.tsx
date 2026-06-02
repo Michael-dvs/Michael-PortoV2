@@ -35,7 +35,7 @@ export default function IntegrationHero() {
       {/* Content */}
       <div className="relative max-w-7xl mx-auto px-6 text-center">
         <span className="inline-block px-3 py-1 mb-4 text-xs rounded-full border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-black dark:text-white font-medium">
-          ⚡ Integrations & Core Tools
+          Integrations & Core Tools
         </span>
         <h2 className="text-3xl lg:text-5xl font-semibold tracking-tight text-gray-900 dark:text-white">
           A Robust System of Tech Stack & Concepts

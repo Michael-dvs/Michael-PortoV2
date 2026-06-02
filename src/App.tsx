@@ -322,7 +322,6 @@ function PortfolioContent() {
             onClick={() => setMobileMenuOpen(false)}
             className="font-semibold text-sm tracking-tight hover:opacity-80 active:scale-95 transition-transform duration-100 flex items-center gap-2"
           >
-            <span className="w-2.5 h-2.5 rounded-full bg-[#0066cc]" />
             <span>Michael-dvs</span>
           </a>
 
@@ -612,24 +611,6 @@ function PortfolioContent() {
               variants={revealVariants}
               className="group bg-[#272729] text-white py-24 px-6 md:px-12 flex flex-col items-center justify-center overflow-hidden transition-all duration-300 ease-in-out hover:bg-[#2a2a2c]"
             >
-              <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <div className="lg:col-span-5 space-y-6 text-left">
-                  <span className="inline-block px-3 py-1 text-xs rounded-full bg-zinc-800 text-zinc-300 font-mono tracking-widest border border-zinc-700 transition-all duration-300 group-hover:border-[#006fee] shadow-sm">
-                    FEATURED PROJECT
-                  </span>
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white leading-tight font-display">
-                    TrashMap AI
-                  </h2>
-                  <p className="text-base sm:text-lg text-zinc-300 font-light leading-relaxed">
-                    Integrating GIS (Geographic Information Systems) and Large Language Models for waste management.
-                  </p>
-                </div>
-                <div className="lg:col-span-7">
-                  <div className="apple-mockup-shadow rounded-2xl overflow-hidden border border-zinc-805 bg-[#1d1d1f] p-2 aspect-[16/10] relative transition-transform duration-300 group-hover:-translate-y-1">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" className="w-full h-full object-cover rounded-xl" alt="TrashMap" />
-                  </div>
-                </div>
-              </div>
             </motion.div>
           </>
         )}
@@ -694,39 +675,9 @@ function PortfolioContent() {
             ) : (
               /* Fallback — 3 static cards shown while data loads or if DB is empty */
               <>
-                <GlassBlogCard
-                  title="Windows-System-Indexer"
-                  excerpt="A robust Python multi-threaded CLI utility for high-speed scraping and caching of local file metadata structures on Windows partitions."
-                  tags={["Python", "CLI", "OS APIs"]}
-                  image="https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=600&q=80"
-                  date="March 12, 2026"
-                  readTime="4 min read"
-                  actionText="View Code on GitHub ↗"
-                  onActionClick={() => window.open("https://github.com", "_blank")}
-                  author={{ name: "Michael Aristyo", avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=50&q=80" }}
-                />
-                <GlassBlogCard
-                  title="Twin Talk Summary Tool"
-                  excerpt="A lightweight Google Chrome extension using Gemini API models to read YouTube transcript streams and deliver visual digests on-click."
-                  tags={["Chrome Ext", "AI / LLM", "JavaScript"]}
-                  image="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80"
-                  date="January 28, 2026"
-                  readTime="6 min read"
-                  actionText="View Code on GitHub ↗"
-                  onActionClick={() => window.open("https://github.com", "_blank")}
-                  author={{ name: "Michael Aristyo", avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=50&q=80" }}
-                />
-                <GlassBlogCard
-                  title="Informatics Lab Hub"
-                  excerpt="An automated queue scheduling assistant used in LePKom classes to distribute live algorithm tests and monitor student answers."
-                  tags={["Vite React", "Node Server", "Practicum"]}
-                  image="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=600&q=80"
-                  date="October 15, 2025"
-                  readTime="8 min read"
-                  actionText="Read Docs ↗"
-                  onActionClick={() => alert("Redirecting to LePKom scheduler documentation portal...")}
-                  author={{ name: "LePKom Mentor Team", avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=50&q=80" }}
-                />
+                <GlassBlogCard/>
+                <GlassBlogCard/>
+                <GlassBlogCard/>
               </>
             )}
 
@@ -747,7 +698,7 @@ function PortfolioContent() {
           {/* Header & Typography */}
           <div className="space-y-4">
             <span className="inline-block px-3 py-1 text-xs font-mono text-sky-400 font-semibold uppercase tracking-widest border border-zinc-800 bg-[#272729] rounded-full">
-              ⚡ Integrations &amp; Core Tools
+              Integrations &amp; Core Tools
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white leading-tight font-display">
               A Robust System of Tech Stack
@@ -872,7 +823,7 @@ function PortfolioContent() {
                 }
                 return (
                   <p className="text-xs font-mono text-zinc-500 text-center py-4 flex items-center justify-center gap-2">
-                    <span>💡</span> Interactive Desk: Hover or tap any tool above to inspect its associated engineering paradigms natively.
+                    <span></span> Interactive Desk: Hover or tap any tool above to inspect its associated engineering paradigms natively.
                   </p>
                 );
               })()}
@@ -930,7 +881,7 @@ function PortfolioContent() {
 
               <div className="rounded-xl bg-zinc-900 p-4 border border-zinc-850 text-left space-y-3">
                 <p className="text-xs font-mono text-[#0066cc] dark:text-sky-400 uppercase tracking-widest font-semibold">
-                  📌 INSTRUCTOR HIGHLIGHTS
+                  INSTRUCTOR HIGHLIGHTS
                 </p>
                 <ul className="text-xs text-zinc-300 space-y-2 list-disc pl-4 font-light">
                   <li>Guiding live practical labs since August 2024 (over three separate terms).</li>
@@ -1049,43 +1000,29 @@ function PortfolioContent() {
             Whether for technical intern roles in machine learning models, production APIs, or high-performance desktop dashboards. Contact Michael for credentials inquiries.
           </p>
 
-          {/* Large Action Blue CTA button */}
-          <div className="pt-4 flex flex-col items-center justify-center gap-3">
-            <button 
-              onClick={triggerDownload}
-              className="px-8 py-4 rounded-[9999px] text-base font-medium text-white bg-[#0066cc] hover:bg-[#0071e3] transition-all duration-150 active:scale-95 shadow-md hover:shadow-lg hover:shadow-[#0066cc]/10 cursor-pointer flex items-center gap-3"
-            >
-              <Download className="w-5 h-5" />
-              Download Latest Resume
-            </button>
-            <p className="text-[10px] font-mono text-gray-400">PDF Document • 480 KB • English Transcript Included</p>
-          </div>
-
-          {/* Core metadata details list */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto pt-12 border-t border-gray-200 dark:border-zinc-800">
-            <div className="text-center p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-150/10 dark:border-zinc-850 shadow-sm">
-              <Mail className="w-5 h-5 text-[#0066cc] dark:text-sky-400 mx-auto mb-2" />
-              <p className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 mb-1">Email Michael</p>
-              <a href="mailto:michael.aristyo@gmail.com" className="text-xs hover:underline text-[#0066cc] dark:text-sky-400 truncate block">
-                michael.aristyo@gmail.com
+          {/* Action buttons */}
+          <div className="pt-4 flex flex-col items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+              <a 
+                href="https://fjzwxziydzloptrdhfwa.supabase.co/storage/v1/object/public/cv/CV%20Michael%20Aristyo%20Rahadiyan%20ATS.pdf?download=CV_Michael_Aristyo_Rahadiyan.pdf"
+                download="CV_Michael_Aristyo_Rahadiyan.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-4 rounded-[9999px] text-base font-medium text-white bg-[#0066cc] hover:bg-[#0071e3] transition-all duration-150 active:scale-95 shadow-md hover:shadow-lg hover:shadow-[#0066cc]/10 cursor-pointer flex items-center gap-3 justify-center w-full sm:w-auto"
+              >
+                <Download className="w-5 h-5" />
+                Download Latest Resume
+              </a>
+              
+              <a 
+                href="mailto:23.michaelaristio@gmail.com"
+                className="px-8 py-4 rounded-[9999px] text-base font-medium border border-gray-300 dark:border-zinc-700 text-[#1d1d1f] dark:text-zinc-100 bg-transparent hover:bg-gray-100 dark:hover:bg-zinc-800 transition-all duration-150 active:scale-95 cursor-pointer flex items-center gap-3 justify-center w-full sm:w-auto"
+              >
+                <Mail className="w-5 h-5" />
+                Mail Me here!
               </a>
             </div>
-
-            <div className="text-center p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-150/10 dark:border-zinc-850 shadow-sm">
-              <Linkedin className="w-5 h-5 text-[#0066cc] dark:text-sky-400 mx-auto mb-2" />
-              <p className="text-[10px] font-mono uppercase tracking-widest text-zinc-400 mb-1">LinkedIn Profile</p>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="text-xs hover:underline text-gray-750 dark:text-zinc-300 block">
-                linkedin.com/in/aristyo
-              </a>
-            </div>
-
-            <div className="text-center p-4 bg-white dark:bg-zinc-950 rounded-xl border border-gray-150/10 dark:border-zinc-850 shadow-sm">
-              <Github className="w-5 h-5 text-[#0066cc] dark:text-sky-400 mx-auto mb-2" />
-              <p className="text-[10px] font-mono uppercase tracking-widest text-[#1d1d1f]/50 dark:text-zinc-450 mb-1">GitHub Space</p>
-              <a href="https://github.com" target="_blank" rel="noreferrer" className="text-xs hover:underline text-gray-750 dark:text-zinc-300 block">
-                github.com/aristyorahadiyan
-              </a>
-            </div>
+            <p className="text-[10px] font-mono text-gray-400">PDF Document • 70 KB • English Transcript</p>
           </div>
 
         </div>

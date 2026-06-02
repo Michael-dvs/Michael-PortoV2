@@ -116,7 +116,7 @@ const DIconsSafe = {
   Designali: ({ className }: { className?: string }) => (
     <span className="flex items-center gap-1 font-semibold tracking-tight text-lg text-primary">
       <Code className="w-5 h-5" />
-      <span>MA</span>
+      <span>Michael-dvs</span>
     </span>
   ),
   Mail: ({ className }: { className?: string }) => <Mail className={className} />,
@@ -225,10 +225,8 @@ const navigation = {
           id: "features",
           name: "Features",
           items: [
-            { name: "TrashMap AI", href: "#trashmap" },
-            { name: "FinExtract Solver", href: "#finextract" },
-            { name: "Campus Mentoring", href: "#lab" },
-          ],
+            { name: "Music-Wails", href: "/projects/music-wails" },
+            { name: "FinExtract", href: "projects/finextract" },          ],
         },
         {
           id: "products",
@@ -245,25 +243,22 @@ const navigation = {
           items: [
             { name: "Universitas Gunadarma", href: "#" },
             { name: "Laboratory Tutor", href: "#lab" },
-            { name: "3.89 Cumulative GPA", href: "#" },
           ],
         },
         {
           id: "other",
           name: "Explore Labs",
           items: [
-            { name: "LePKom Gunadarma", href: "https://lepkom.gunadarma.ac.id" },
-            { name: "Chrome Twin Talk", href: "#other-projects" },
-            { name: "Windows Indexer", href: "#other-projects" },
+            { name: "LePKom Gunadarma", href: "https://lepkom.gunadarma.ac.id" }
           ],
         },
         {
           id: "company",
           name: "Inquiries",
           items: [
-            { name: "Email Michael", href: "mailto:michael.aristyo@gmail.com" },
-            { name: "Personal GitHub", href: "https://github.com" },
-            { name: "Informatics Portals", href: "#" },
+            { name: "Email Michael", href: "mailto:23.michaelaristio@gmail.com" },
+            { name: "Personal GitHub", href: "https://github.com/michael-dvs" },
+            { name: "Informatics Portals", href: "michaelarhdyn.my.id" },
           ],
         },
       ],
@@ -326,7 +321,7 @@ export function Footer() {
         <div className="flex flex-wrap items-center justify-center gap-6 gap-y-4 px-6">
           <a
             aria-label="Email Address"
-            href="mailto:michael.aristyo@gmail.com"
+            href="mailto:23.michaelaristio@gmail.com"
             rel="noreferrer"
             target="_blank"
             className={Underline}
@@ -335,7 +330,7 @@ export function Footer() {
           </a>
           <a
             aria-label="GitHub Account"
-            href="https://github.com"
+            href="https://github.com/michael-dvs"
             rel="noreferrer"
             target="_blank"
             className={Underline}
@@ -344,7 +339,7 @@ export function Footer() {
           </a>
           <a
             aria-label="Instagram Profile"
-            href="https://instagram.com"
+            href="https://instagram.com/michaelarhdyn"
             rel="noreferrer"
             target="_blank"
             className={Underline}
@@ -353,21 +348,12 @@ export function Footer() {
           </a>
           <a
             aria-label="LinkedIn Profile"
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/michaelarhdyn"
             rel="noreferrer"
             target="_blank"
             className={Underline}
           >
             <DIconsSafe.LinkedIn className="h-5 w-5" />
-          </a>
-          <a
-            aria-label="YouTube Channel"
-            href="https://youtube.com"
-            rel="noreferrer"
-            target="_blank"
-            className={Underline}
-          >
-            <DIconsSafe.YouTube className="h-5 w-5" />
           </a>
         </div>
         <ThemeToggle />
@@ -377,11 +363,7 @@ export function Footer() {
         <div className="flex flex-row items-center justify-center gap-1 text-gray-400 dark:text-zinc-500 font-light">
           <span> © </span>
           <span>{new Date().getFullYear()}</span>
-          <span>Michael Aristyo Rahadiyan • Made with</span>
-          <DIconsSafe.Heart className="text-red-600 mx-0.5 h-3 w-3 animate-pulse inline" />
-          <span> for </span>
-          <span className="hover:text-[#0066cc] cursor-pointer text-gray-700 dark:text-zinc-400 font-normal">
-            Universitas Gunadarma Portfolio
+          <span>Michael Aristyo Rahadiyan
           </span>
         </div>
       </div>
